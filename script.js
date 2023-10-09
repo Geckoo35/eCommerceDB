@@ -3,20 +3,20 @@ var total = 0;
 
 function fetchUsers() {
     // URL dell'API
-    const apiUrl = 'https://jsonplaceholder.typicode.com/users';
+    const apiUrl = 'https://my-json-server.typicode.com/Geckoo35/eCommerceDB/prodotti';
 
     // Effettua una richiesta GET all'API
     fetch(apiUrl)
     .then(response => response.json())
     .then(data => {
         // Ottieni l'elemento della lista degli utenti dal DOM
-        const userList = document.getElementById('user-list');
+        const productList = document.getElementById('user-list');
 
         // Iteriamo attraverso gli utenti e creiamo una lista
-        data.forEach(user => {
+        data.forEach(prodotti => {
             const listItem = document.createElement('li');
-            listItem.textContent = `Nome: ${user.name}, Email: ${user.email}`;
-            userList.appendChild(listItem);
+            listItem.textContent = `Nome: ${prodotti.nome}, Descrizione: ${prodotti.descrizione}`;
+            productList.appendChild(listItem);
         });
     })
     .catch(error => {
