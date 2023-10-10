@@ -1,5 +1,7 @@
 var cart = [];
 var total = 0;
+var valoreRandomico = [];
+var ids = [0,0,0];
 
 function fetchUsers() {
     // URL dell'API
@@ -7,23 +9,55 @@ function fetchUsers() {
 
     // Effettua una richiesta GET all'API
     fetch(apiUrl)
-    .then(response => response.json())
-    .then(data => {
-        // Ottieni l'elemento della lista degli utenti dal DOM
-        const productList = document.getElementById('user-list');
+        .then(response => response.json())
+        .then(data => {
+            // Ottieni l'elemento della lista degli utenti dal DOM
+            const userList2 = document.getElementById('user-list');
 
-        // Iteriamo attraverso gli utenti e creiamo una lista
-        data.forEach(prodotti => {
-            const listItem = document.createElement('li');
-            listItem.textContent = `Nome: ${prodotti.nome}, Descrizione: ${prodotti.descrizione}`;
-            productList.appendChild(listItem);
-        });
-    })
-    .catch(error => {
-        console.error('Errore durante il recupero dei dati:', error);
-    });
+            for (let i = 0; i < data.length; i++) {
+                j = i;
+                j++;
+                ids[i] = j;
+                // Iteriamo attraverso gli utenti e creiamo una lista
+                const valoreRandomicoArray = randomNumber();
+                valoreRandomico.push(valoreRandomicoArray);
+                const bottone = document.createElement('button');
+                bottone.textContent = "Aggiungi al carrello";
+                bottone.onclick = function () {
+                    var qty = document.getElementById("quantity" + ids[i]).value;
+                    addToCart(data[i].nome, data[i].descrizione, valoreRandomico[i], qty);
+                };
+                const listItem2 = document.createElement('p');
+                listItem2.innerHTML = "nome prodotto: " + data[i].nome + "<br>"
+                    + "descrizione prodotto: " + data[i].descrizione + "<br>"
+                    + "costo prodotto: " + valoreRandomico[i] + "€";
+
+                
+                const titolo = document.createElement('h2');
+                titolo.textContent = "Prodotto" + j;
+
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.id = "quantity" +ids[i];
+                input.value = '1';
+                input.min = '1';
+
+                userList2.appendChild(titolo);
+                userList2.appendChild(listItem2)
+                userList2.appendChild(input) + "     " + userList2.appendChild(bottone);
+            }
+        }
+        )
 }
 
+
+
+fetchUsers();
+
+function randomNumber() {
+    var valoreRandomico = Math.floor(Math.random() * 10) + 1;
+    return valoreRandomico;
+}
 
 function addToCart(prodName, prodDesc, prodPrz, prodQty) {
     var quantity = parseInt(prodQty);
@@ -48,7 +82,7 @@ function addToCart(prodName, prodDesc, prodPrz, prodQty) {
         productElement.innerHTML =
             'prod: ' + prodName +
             ' desc: ' + desc +
-            ' price: ' + price +
+            ' prezzo: ' + price + "€" +
             ' quantity: ' + quantity +
             '<button onclick="removeFromCart(' + i + ')">Rimuovi</button>'; //**Remove button
 
@@ -61,6 +95,7 @@ function addToCart(prodName, prodDesc, prodPrz, prodQty) {
 
 function clearCart() {
     cart = [];
+    total=0;
     updateCartView();
 }
 
@@ -68,7 +103,7 @@ function updateTotal() {
     var totalElement = document.getElementById('total');
     totalElement.innerHTML = 'Totale: ' + total;
 }
- 
+
 function removeFromCart(index) {
     // Remove the item at index 
     if (index >= 0 && index < cart.length) {
@@ -81,6 +116,9 @@ function removeFromCart(index) {
 function updateCartView() {
     var cartElement = document.getElementById('cart');
     cartElement.innerHTML = '';
+    var totalElement = document.getElementById('total');
+    total=0;
+    totalElement.innerHTML = 'Totale: ' + total;
 
     for (var i = 0; i < cart.length; i++) {
         var currProduct = cart[i];
@@ -112,6 +150,7 @@ function checkout() {
 
     // Clear  cart / update the cart view
     cart = [];
+    total = 0;
     updateCartView();
 
     messaggio = 'caro' + document.getElementById('name').value

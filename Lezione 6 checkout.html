@@ -1,35 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Il mio E-commerce</title>
 </head>
 <body>
     <script src="script.js"></script>
-    <div id="products"></div>
-        <div class="product">
-            <h2>Prodotto 1</h2>
-            <p>Descrizione del Prodotto 1.</p>
-            <input type="number" id="quantity1" value="1" min="1">
-            <button onclick="
-                 var qty = document.getElementById('quantity1').value;
-                 addToCart(
-                'Prodotto 1',
-                'Descrizione del Prodotto 1.',
-                10,
-                qty)">Aggiungi al Carrello</button>  
-        </div>
-        <div class="product">
-            <h2>Prodotto 2</h2>
-            <p>Descrizione del Prodotto 2.</p>
-            <input type="number" id="quantity2" value="1" min="1">
-            <button onclick="
-                var qty = document.getElementById('quantity2').value;
-                addToCart('Prodotto 2',
-                'Descrizione del Prodotto 2.',
-                20,
-                qty)">Aggiungi al Carrello</button>
-        </div>
-        <!-- Aggiungi più prodotti qui -->
+    <H1>prodotti:</H1>
+    <div>
+        <p id="user-list"></p>
     </div>
 
     <h2>carrello:</h2>
@@ -56,10 +35,7 @@
 
     <button onclick="clearCart()">Cancella tutto il Carrello</button>
 
-    <ul id="user-list">
-        <script>
-            fetchUsers();
-        </script>
-    </ul>
+    <div id="user-list"></div>
+
 </body>
 </html>
