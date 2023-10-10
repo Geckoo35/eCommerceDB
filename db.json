@@ -1,16 +1,16 @@
 {
   "prodotti":[
     {
-      "nome" : "prodotto 1",
-      "descrizione" : "descrizione del prodotto 1"
+      "nome" : "Smartphone Eco-Friendly 'GreenTech X1'",
+      "descrizione" : "Uno smartphone ecologico con design sostenibile e ottime prestazioni."
     },
     {
-      "nome" : "prodotto 2",
-      "descrizione" : "descrizione del prodotto 2"
+      "nome" : "Bicicletta Elettrica Pieghevole 'EcoRide FoldaVolt'",
+      "descrizione" : "Una bici elettrica compatta e pieghevole per gli spostamenti urbani facili e sostenibili."
     },
     {
-      "nome" : "prodotto 3",
-      "descrizione" : "descrizione del prodotto 3"
+      "nome" : "Kit di Giardinaggio Urbano 'GreenThumb'",
+      "descrizione" : "Un set completo per il giardinaggio in città, ideale per coltivare erbe aromatiche e verdure fresche."
     }
   ]
 }
