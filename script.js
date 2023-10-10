@@ -34,7 +34,7 @@ function fetchUsers() {
 
                 
                 const titolo = document.createElement('h2');
-                titolo.textContent = "Prodotto" + j;
+                titolo.textContent = "Prodotto" + " " + j;
 
                 const input = document.createElement('input');
                 input.type = 'number';
