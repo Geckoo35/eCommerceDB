@@ -28,9 +28,9 @@ function fetchUsers() {
                     addToCart(data[i].nome, data[i].descrizione, valoreRandomico[i], qty);
                 };
                 const listItem2 = document.createElement('p');
-                listItem2.innerHTML = "nome prodotto: " + data[i].nome + "<br>"
-                    + "descrizione prodotto: " + data[i].descrizione + "<br>"
-                    + "costo prodotto: " + valoreRandomico[i] + "€";
+                listItem2.innerHTML = "<b>nome prodotto: </b>" + data[i].nome + "<br>"
+                    + "<b>descrizione prodotto: </b>" + data[i].descrizione + "<br>"
+                    + "<b>costo prodotto: </b>" + valoreRandomico[i] + "€";
 
                 
                 const titolo = document.createElement('h2');
@@ -79,11 +79,13 @@ function addToCart(prodName, prodDesc, prodPrz, prodQty) {
 
         var productElement = document.createElement('div');
 
+        price = price * quantity;
+
         productElement.innerHTML =
-            'prod: ' + prodName +
-            ' desc: ' + desc +
-            ' prezzo: ' + price + "€" +
-            ' quantity: ' + quantity +
+            '<b>prod: </b>' + prodName +
+            '<b> desc: </b>' + desc +
+            '<b> quantity: </b>' + quantity +
+            '<b> prezzo: </b>' + price + "€" +
             '<button onclick="removeFromCart(' + i + ')">Rimuovi</button>'; //**Remove button
 
 
