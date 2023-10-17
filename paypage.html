@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Checkout Example</title>
+  <script src="https://js.stripe.com/v3/"></script>;
+</head>
+<body>
+  <button id="checkout-button">Paga con Stripe</button>
+
+  <script>
+    var stripe = Stripe('sk_test_51O29K2GDynile88IavaaauwTDRRX1d6dRqEyYRPBa5bFnb4OrhAxHHUx6p4i55jJJGnryxENpirDr8lUy28DSuKT00drXn9uDF'); // Sostituisci con la tua chiave pubblica
+    var elements = stripe.elements();
+
+    var style = {
+      base: {
+        fontSize: '16px',
+        color: '#32325d',
+      },
+    };
+
+    var card = elements.create('card', {style: style});
+    card.mount('#card-element');
+
+    var checkoutButton = document.getElementById('checkout-button');
+
+    checkoutButton.addEventListener('click', function() {
+      stripe.createToken(card).then(function(result) {
+        if (result.error) {
+          console.error(result.error.message);
+        } else {
+          // Invia il token al tuo server per elaborare il pagamento
+          console.log(result.token);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
