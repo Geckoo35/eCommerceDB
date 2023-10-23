@@ -145,6 +145,12 @@ function updateCartView() {
 }
 
 function checkout() {
+    var total = document.getElementById('total')
+    var totalText = total.innerHTML
+    var numero = parseInt(totalText.match(/\d+/)[0]);
+    console.log(numero); // Stampa 1288
+
+    pay(numero)
 
     //crea ordine vero
     var ordine = cart
@@ -162,3 +168,27 @@ function checkout() {
     window.alert(messaggio);
 }
 
+function pay(total){
+    total = total + '00'
+    totale = 0;
+    totale = total;
+    const stripeSecretKey = 'sk_test_51O29K2GDynile88IavaaauwTDRRX1d6dRqEyYRPBa5bFnb4OrhAxHHUx6p4i55jJJGnryxENpirDr8lUy28DSuKT00drXn9uDF';
+
+      const data = new URLSearchParams({
+        amount: totale,  //in cents!! mettere l' unità più piccola
+        currency: 'eur',
+        payment_method: 'pm_card_visa'
+      });
+     
+      fetch('https://api.stripe.com/v1/payment_intents', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${stripeSecretKey}`, // Qui ci va la secret key
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: data
+      })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
+}

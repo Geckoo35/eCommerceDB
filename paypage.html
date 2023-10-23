@@ -2,10 +2,14 @@
 <html>
 <head>
   <title>Checkout Example</title>
-  <script src="https://js.stripe.com/v3/"></script>;
+  <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
   <button id="checkout-button">Paga con Stripe</button>
+
+  <div id="card-element">
+    <!-- Un campo per l'inserimento delle informazioni della carta di credito verrà creato qui -->
+  </div>
 
   <script>
     var stripe = Stripe('pk_test_51O29K2GDynile88IusuYwnyb8cK9OmyG9S0VgqhlIvU4QLr6vxjmgdlnY1o2mj9jyWPawK3C2r156iL7O6od4Jbp00Mj7SNmdP'); // Sostituisci con la tua chiave pubblica
@@ -18,7 +22,7 @@
       },
     };
 
-    var card = elements.create('card', {style: style});
+    var card = elements.create('card', { style: style });
     card.mount('#card-element');
 
     var checkoutButton = document.getElementById('checkout-button');
