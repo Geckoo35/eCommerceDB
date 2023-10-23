@@ -150,28 +150,21 @@ function checkout() {
     var numero = parseInt(totalText.match(/\d+/)[0]);
     console.log(numero); // Stampa 1288
 
-    pay(numero)
-
     //crea ordine vero
     var ordine = cart
-
 
     // Clear  cart / update the cart view
     cart = [];
     total = 0;
     updateCartView();
-
-    messaggio = 'caro' + document.getElementById('name').value
-    messaggio += ',abbiamo ricevuto il tuo ordine, \r\n'
-    messaggio += 'spediremo al seguente indirizzo: \r\n'
-    messaggio += document.getElementById('address').value
-    window.alert(messaggio);
+    pay(numero);
 }
 
 function pay(total){
     total = total + '00'
     totale = 0;
     totale = total;
+    console.log(totale)
     const stripeSecretKey = 'sk_test_51O29K2GDynile88IavaaauwTDRRX1d6dRqEyYRPBa5bFnb4OrhAxHHUx6p4i55jJJGnryxENpirDr8lUy28DSuKT00drXn9uDF';
 
       const data = new URLSearchParams({
@@ -191,4 +184,13 @@ function pay(total){
         .then(response => response.json())
         .then(data => console.log(data))
         .catch(error => console.error('Error:', error));
+        notifica();
+}
+
+function notifica(){
+    messaggio = 'caro' + document.getElementById('name').value
+    messaggio += ',abbiamo ricevuto il tuo ordine, \r\n'
+    messaggio += 'spediremo al seguente indirizzo: \r\n'
+    messaggio += document.getElementById('address').value
+    window.alert(messaggio);
 }
