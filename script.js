@@ -50,8 +50,6 @@ function fetchUsers() {
         )
 }
 
-
-
 fetchUsers();
 
 function randomNumber() {
