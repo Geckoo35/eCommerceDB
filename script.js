@@ -1,16 +1,22 @@
 var cart = [];
 var total = 0;
 var valoreRandomico = [];
-var ids = [0,0,0];
+var ids = [0, 0, 0];
 
 function fetchUsers() {
-    // URL dell'API
-    const apiUrl = 'https://my-json-server.typicode.com/Geckoo35/eCommerceDB/prodotti';
+    const options = {
+        method: 'GET',
+        headers: {
+            'xc-auth': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpbW9uZS5wZXJhenppbmlAc3R1ZGVudGkuaXR0c3JpbWluaS5lZHUuaXQiLCJkaXNwbGF5X25hbWUiOm51bGwsImF2YXRhciI6bnVsbCwidXNlcl9uYW1lIjpudWxsLCJpZCI6InVzdTlhaTczaXNtdnFwenUiLCJyb2xlcyI6Im9yZy1sZXZlbC12aWV3ZXIiLCJ0b2tlbl92ZXJzaW9uIjoiNmQ1ODljZmU3ZjI2NThmYWEyNDVhYTg0NTRlMDEyYTg0YWZhY2RhNGIzODRjYjBiYjc0NGRiZDRjMjkzNjRlOTY5MGNhODEzOTFjOWIxNjIiLCJwcm92aWRlciI6ImNvZ25pdG8iLCJpYXQiOjE2OTkyNjg5MzEsImV4cCI6MTY5OTMwNDkzMX0.OG30xAGiDDlJ_LGN5JDVlFe-scVrQUtHbXUzo04zINs'
+        }
+    };
 
     // Effettua una richiesta GET all'API
-    fetch(apiUrl)
-        .then(response => response.json())
+    fetch('https://app.nocodb.com/api/v1/db/data/noco/pjisd28n36mddzt/Table1/views/Table1?offset=0&limit=25&where=', options)
+    .then(response => response.json())
         .then(data => {
+            data = data.list;
+            console.log(data)
             // Ottieni l'elemento della lista degli utenti dal DOM
             const userList2 = document.getElementById('user-list');
 
@@ -25,20 +31,20 @@ function fetchUsers() {
                 bottone.textContent = "Aggiungi al carrello";
                 bottone.onclick = function () {
                     var qty = document.getElementById("quantity" + ids[i]).value;
-                    addToCart(data[i].nome, data[i].descrizione, valoreRandomico[i], qty);
+                    addToCart(data[i].Nome, data[i].Descrizione, valoreRandomico[i], qty);
                 };
                 const listItem2 = document.createElement('p');
-                listItem2.innerHTML = "<b>nome prodotto: </b>" + data[i].nome + "<br>"
-                    + "<b>descrizione prodotto: </b>" + data[i].descrizione + "<br>"
+                listItem2.innerHTML = "<b>nome prodotto: </b>" + data[i].Nome + "<br>"
+                    + "<b>descrizione prodotto: </b>" + data[i].Descrizione + "<br>"
                     + "<b>costo prodotto: </b>" + valoreRandomico[i] + "€";
 
-                
+
                 const titolo = document.createElement('h2');
                 titolo.textContent = "Prodotto" + " " + j;
 
                 const input = document.createElement('input');
                 input.type = 'number';
-                input.id = "quantity" +ids[i];
+                input.id = "quantity" + ids[i];
                 input.value = '1';
                 input.min = '1';
 
@@ -95,7 +101,7 @@ function addToCart(prodName, prodDesc, prodPrz, prodQty) {
 
 function clearCart() {
     cart = [];
-    total=0;
+    total = 0;
     updateCartView();
 }
 
@@ -117,7 +123,7 @@ function updateCartView() {
     var cartElement = document.getElementById('cart');
     cartElement.innerHTML = '';
     var totalElement = document.getElementById('total');
-    total=0;
+    total = 0;
     totalElement.innerHTML = 'Totale: ' + total;
 
     for (var i = 0; i < cart.length; i++) {
@@ -142,11 +148,8 @@ function updateCartView() {
     updateTotal();
 }
 
-function checkout() {
-    var total = document.getElementById('total')
-    var totalText = total.innerHTML
-    var numero = parseInt(totalText.match(/\d+/)[0]);
-    console.log(numero); // Stampa 1288
+function checkout(Totale) {
+    pay(Totale)
 
     //crea ordine vero
     var ordine = cart
@@ -158,37 +161,59 @@ function checkout() {
     pay(numero);
 }
 
-function pay(total){
+function pay(total) {
     total = total + '00'
     totale = 0;
     totale = total;
     console.log(totale)
     const stripeSecretKey = 'sk_test_51O29K2GDynile88IavaaauwTDRRX1d6dRqEyYRPBa5bFnb4OrhAxHHUx6p4i55jJJGnryxENpirDr8lUy28DSuKT00drXn9uDF';
 
-      const data = new URLSearchParams({
+    const data = new URLSearchParams({
         amount: totale,  //in cents!! mettere l' unità più piccola
         currency: 'eur',
         payment_method: 'pm_card_visa'
-      });
-     
-      fetch('https://api.stripe.com/v1/payment_intents', {
+    });
+
+    fetch('https://api.stripe.com/v1/payment_intents', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${stripeSecretKey}`, // Qui ci va la secret key
-          'Content-Type': 'application/x-www-form-urlencoded'
+            'Authorization': `Bearer ${stripeSecretKey}`, // Qui ci va la secret key
+            'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: data
-      })
+    })
         .then(response => response.json())
         .then(data => console.log(data))
         .catch(error => console.error('Error:', error));
-        notifica();
+    notifica();
 }
 
-function notifica(){
+function notifica() {
     messaggio = 'caro' + document.getElementById('name').value
     messaggio += ',abbiamo ricevuto il tuo ordine, \r\n'
     messaggio += 'spediremo al seguente indirizzo: \r\n'
     messaggio += document.getElementById('address').value
     window.alert(messaggio);
+}
+
+function pay(Totale) {
+    const stripeSecretKey = 'sk_test_51O29K2GDynile88IavaaauwTDRRX1d6dRqEyYRPBa5bFnb4OrhAxHHUx6p4i55jJJGnryxENpirDr8lUy28DSuKT00drXn9uDF';
+
+    const data = new URLSearchParams({
+        amount: '13000',  //in cents!! mettere l' unità più piccola
+        currency: 'eur',
+        payment_method: 'pm_card_visa'
+    });
+
+    fetch('https://api.stripe.com/v1/payment_intents', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${stripeSecretKey}`, // Qui ci va la secret key
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: data
+    })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
 }
